@@ -1,64 +1,40 @@
-import 'dart:math';
-import 'dart:io';
+abstract class Car {
+  String name;
+  int weight;
+  DateTime year;
 
-void main() 
-{
-  List<int> randomNumbers = generateNumbers(10, 50);
-  print(randomNumbers);
-  int userNumber = getUserInt();
-  if (isNumInList(userNumber, randomNumbers))
-  {
-    print('You have guessed correctly!');
-  } else 
-  {
-    print('You have guessed incorrectly!');
+  Car(this.name, this.weight, this.year);
+
+  void drive();
+}
+
+class Bus extends Car implements washable{
+  @override
+  bool clean = false;
+
+  Bus(String name, int weight, DateTime year) : super(name, weight, year);
+
+  @override
+  void drive() {
+    print("The bus is driving...");
+  }
+
+  @override
+  void wash() {
+    clean = true;
+    print("The $name bus has been washed");
   }
 }
 
-List<int> generateNumbers(int length, int max) 
-{
-  List<int> randomNumbers = [];
+ abstract interface class washable {
+  late bool clean;
 
-  var random = Random();
-
-  for(int i = 0; i < length; i++) {
-    randomNumbers.add(random.nextInt(max));
-  }
-
-  return randomNumbers;
+  void wash();
 }
 
-int getUserInt() 
-{
-  stdout.write('Input your number: ');
-
-  String? userInput = stdin.readLineSync();
-
-  try {
-    int number = int.parse(userInput!);
-    return number;
-  } catch (e) {
-    print('Invalid input. Please enter a valid integer');
-  }
-  return getUserInt();
-}
-
-int searchNumber(int number, List<int> numberList) 
-{
-  for(int i = 0; i < numberList.length; i++)
-  {
-    if (number == numberList[i]) 
-    {
-      return i;
-    }
-  }
-  return -1;
-}
-
-bool isNumInList(int number, List<int> numberList)
-{
-  if (searchNumber(number, numberList) != -1) {
-    return true;
-  }
-  return false;
+void main() {
+  Bus bus = Bus('Worm', 2000, DateTime.parse("2015-04-12"));
+  print(bus.clean);
+  bus.wash();
+  print(bus.clean);
 }
